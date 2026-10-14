@@ -1,0 +1,16 @@
+# Your books, backups, trash, images and settings: private, never uploaded
+data/
+
+# Python caches
+__pycache__/
+*.pyc
+
+# Local editor / tool settings
+.claude/
+.vscode/
+.idea/
+
+# System files
+Thumbs.db
+desktop.ini
+.DS_Store
