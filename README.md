@@ -1,10 +1,25 @@
 # NoirWrite
 
-A personal novel-writing studio. It runs locally in your browser and needs nothing but Python.
+A personal novel-writing studio. It runs on your own computer, in your browser, and needs nothing but Python. Your books stay on your computer: nothing is sent anywhere.
+
+## Install
+
+1. **Install Python 3.10 or newer** from https://www.python.org/downloads/.
+   - **Windows:** during setup, tick **"Add python.exe to PATH"**.
+   - **macOS:** run the installer. Linux usually has Python already.
+2. **Download NoirWrite:** on the GitHub page, choose **Releases** and download the latest ZIP, or click **Code → Download ZIP**. Unzip it somewhere you'll keep it, for example in Documents.
+3. **Start it:**
+   - **Windows:** double-click **`NoirWriter.bat`**.
+   - **macOS:** double-click **`NoirWriter.command`**. The first time, macOS may say it's from an unidentified developer. If so, right-click the file, choose **Open**, then **Open** again.
+   - **Linux:** run `./NoirWriter.command` in a terminal.
+
+NoirWrite opens in your browser at http://127.0.0.1:8765, and that address works in Edge, Chrome, Firefox or Safari.
+
+**Updating to a new version:** download the new version and unzip it, then copy your old `data` folder into it. Your books, backups and images are all in `data`.
 
 ## Start it
 
-Double-click **`NoirWriter.bat`**. NoirWrite opens in your browser at http://127.0.0.1:8765, and that address works in Edge, Chrome or Firefox.
+Double-click **`NoirWriter.bat`** (Windows) or **`NoirWriter.command`** (macOS).
 
 > **Keep the black NoirWrite window open while you write.** That window *is* NoirWrite. If you close it, the browser shows "unable to connect", and NoirWrite shows a red "server offline" banner. Your typing stays safe in the open tab and saves as soon as you start NoirWrite again.
 
@@ -113,4 +128,10 @@ To back everything up by hand, copy the `data` folder.
 
 ## Testing
 
-Double-click **RunTests.bat** (or run `python testsun_tests.py`) to check the whole app in about three minutes: server checks, every feature in a browser tab, and a look check of every page in both themes. Your own projects are never touched. See `tests/README.md`.
+Double-click **RunTests.bat** (or run `python tests/run_tests.py`) to check the whole app in about three minutes: server checks, every feature in a browser tab, and a look check of every page in both themes. Your own projects are never touched. See `tests/README.md`.
+
+## Licence
+
+NoirWrite is free software: you can use it, share it and change it under the terms of the **GNU General Public License, version 3** or (at your option) any later version (see `LICENSE`). If you share a changed version, you must share its source code under the same licence. NoirWrite comes with no warranty.
+
+Copyright © 2026 Dharun Vaibhav U.

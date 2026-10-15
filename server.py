@@ -2,6 +2,8 @@
 
 Serves the web app from ./static and stores projects as JSON files in ./data.
 Run:  python server.py   (then open http://127.0.0.1:8765)
+
+Copyright (C) 2026 Dharun Vaibhav U. Free software under the GNU GPL v3 or later; see LICENSE.
 """
 
 import json
@@ -16,6 +18,10 @@ from datetime import datetime
 from http import HTTPStatus
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
+
+if sys.version_info < (3, 10):
+    sys.exit(f"NoirWrite needs Python 3.10 or newer; this is Python {sys.version.split()[0]}. "
+             "Get the latest from https://www.python.org/downloads/")
 
 HOST = "127.0.0.1"
 PORT = int(os.environ.get("NOIRWRITER_PORT", "8765"))

@@ -1,0 +1,12 @@
+# Line endings: Unix-style (LF) everywhere, on every computer, so Git doesn't convert files back and
+# forth. Windows batch files are the exception: they need Windows-style (CRLF) endings to run.
+* text=auto eol=lf
+*.bat text eol=crlf
+
+# binary files: never touched
+*.gz binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.gif binary
