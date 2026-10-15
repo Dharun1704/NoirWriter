@@ -115,7 +115,10 @@ export function renderEditor(ctx, current) {
   // opened at a later scene of the chapter: start there
   if (chapterPage && ch.scenes[0] !== s) {
     const mark = prose.querySelector(`hr.scene-split[data-split="${s.id}"]`);
-    if (mark) requestAnimationFrame(() => { $("#editor-scroll").scrollTop = mark.offsetTop - 40; });
+    if (mark) requestAnimationFrame(() => {
+      const scroller = $("#editor-scroll");      // gone if the writer already moved on
+      if (scroller) scroller.scrollTop = mark.offsetTop - 40;
+    });
   }
 
   let words = chapterPage ? chapterWords(ch) : countWords(s.content);

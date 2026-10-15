@@ -94,7 +94,18 @@ Entries link to each other: a character's homeland, a faction's leader, a spell'
 - **Same project open in two windows?** Every save carries a version number. When you switch back to a tab, it picks up changes made elsewhere automatically. If both windows changed the project, NoirWrite stops and asks whether to load the newer version, keep yours, or save yours as a copy. Nothing is overwritten silently.
 - **Backup folder (protects against a broken drive):** on the home page, choose a folder, ideally inside OneDrive, Google Drive or Dropbox so it syncs to the cloud. NoirWrite then keeps a copy of every project in `NoirWrite Backup` inside it, updated a couple of minutes after you write, plus one copy per day for the last 30 days and your images. It catches up whenever NoirWrite starts. The home page shows when the last copy was made, or warns if the folder can't be reached (your work still saves on this computer). To bring a book back, copy its `.json` file from the backup folder into `data`, or use **Import** on the home page.
 - Deleted projects go to `data/trash/` and can be brought back from **Recently deleted** at the bottom of the home page.
-- **Export / compile** (bottom of the sidebar) gives you Word (.doc), HTML (print it to get a PDF), Markdown, plain text or a full project backup (.json).
+- **Compile & export** (bottom of the sidebar) turns the book into a finished file, with a live preview of the pages as you change the settings. Your choices are saved with the project, so the next compile is one click.
+  - **Formats:** Word (.docx), PDF, EPUB e-book, web page, Markdown and plain text. A full project backup (.json) is there too.
+  - **Presets:**
+    - *Standard manuscript* for agents and editors: 12 pt Times New Roman, double-spaced, 1-inch margins, a `Surname / TITLE / page` header, a title page with your contact details and a rounded word count, and chapters a third of the way down a new page.
+    - *Paperback* for KDP, IngramSpark or Lulu: 6 × 9 in, Garamond, justified, mirrored margins, author and title running heads, page numbers at the foot, no running head on chapter openings, and Chapter One on a right-hand page.
+    - *E-book*: a reflowable EPUB with a linked table of contents and an optional cover image.
+    - *Beta readers*: easy to read, with scene titles shown.
+  - **Contents:** pick the chapters, and optionally leave out scenes marked "to do".
+  - **Title & extras:** subtitle, pen name and legal name, contact details, copyright page (written for you, or your own text), dedication, epigraph, table of contents, "The End", acknowledgements and about the author.
+  - **Layout:** chapter headings (Chapter One, Chapter 1, One, 1, I, or the title only), chapter and scene titles, the scene-break mark, font, size, line spacing, indents, justification, page size, margins and the header. Fonts, colours and highlights you used while writing are left out unless you ask to keep them. Comments are always left out.
+  - The **Word file** uses real Word styles (Heading 1 for chapters, and so on), so Word's navigation pane lists your chapters and you can restyle the whole book in one place.
+  - **PDF** opens the book in a new tab with the print window: choose *Save as PDF* and switch off the browser's *Headers and footers*. For a print-on-demand interior, the Word file is the more precise choice: browsers can't yet leave the running head off a chapter's first page.
 
 - **How big is it?** Text takes about 7 bytes per word, so a 35,000-word novel is roughly 250 KB on disk. Portraits add about 30–60 KB each, and snapshots add a copy of their scene. Map images are stored as separate files.
 

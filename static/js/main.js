@@ -1,13 +1,13 @@
 // NoirWrite: the app's entry point. Routes the address (#/ for home, #/p/<project>/<page>/<item>),
 // loads the project, draws the sidebar shell around the current page, and handles saving status,
-// the same project open in two windows, global search (Ctrl+K), the sprint pill and Export.
+// the same project open in two windows, global search (Ctrl+K) and the sprint pill.
 
 import {
   api, uid, scheduleSave, flushSave, hasPendingSave, onSaveState, clearConflict,
-  saveState, totalWords, allScenes, manuscriptMarkdown, manuscriptHtml, manuscriptText, hasFeature,
+  saveState, totalWords, allScenes, hasFeature,
 } from "./store.js";
 import { GENRES, GROUPS, FEATURES, NOTES_FEATURE, peopleLabel } from "./features.js";
-import { $, $$, esc, fmt, inlineEdit, modal, toast, download } from "./ui.js";
+import { $, $$, esc, fmt, inlineEdit, modal, toast } from "./ui.js";
 import { applyLayout, bindResizers, resizer, setTheme, getTheme, themeSwitch, bindThemeSwitch } from "./layout.js";
 import { renderOverview } from "./views/overview.js";
 import { renderHome, renderOffline, setRetry } from "./views/home.js";
@@ -18,6 +18,7 @@ import { renderClues, renderSuspects } from "./views/clues.js";
 import { renderCodex } from "./views/codex.js";
 import { renderMaps } from "./views/maps.js";
 import { renderStats } from "./views/stats.js";
+import { openCompile } from "./views/compile.js";
 import { icon } from "./icons.js";
 import "./dropdown.js";   // every <select> gets the themed dropdown
 import { openSearch } from "./search.js";
@@ -240,7 +241,7 @@ function renderShell(view) {
         </div>
         <div class="sprint-pill" id="sprint-pill" hidden></div>
         <div class="save-state" id="save-state"></div>
-        <div class="nav-item" data-export><span class="ic">${icon("download")}</span>Export / compile</div>
+        <div class="nav-item" data-export><span class="ic">${icon("download")}</span>Compile & export</div>
         <div class="stats"><span><b id="total-words">${fmt(totalWords(project))}</b> words</span>${themeSwitch()}</div>
       </nav>
       ${resizer("nav", 1)}
@@ -259,7 +260,7 @@ function renderShell(view) {
     scheduleSave(project);
   });
   $$("[data-view]", app).forEach(n => n.onclick = () => go(n.dataset.view));
-  $("[data-export]", app).onclick = exportMenu;
+  $("[data-export]", app).onclick = () => openCompile(project);
   $("[data-search]", app).onclick = searchHere;
   paintSprint();
   bindResizers(app);
@@ -334,26 +335,5 @@ onSprintEnd(async result => {
     buttons: [{ label: "Done", kind: "primary", value: null }],
   });
 });
-
-async function exportMenu() {
-  const r = await modal({
-    title: "Export / compile",
-    body: `<p class="muted">Your project is saved on disk in <code>data/${esc(project.id)}.json</code>, with automatic backups in <code>data/backups</code>.</p>
-      <p class="muted">The Word and HTML exports use standard manuscript format (double-spaced, indented paragraphs, chapter page breaks). For a PDF, open the HTML file and choose Print → Save as PDF.</p>`,
-    buttons: [
-      { label: "Backup (.json)", value: "json", left: true },
-      { label: "Plain text", value: "txt" },
-      { label: "Markdown", value: "md" },
-      { label: "HTML / PDF", value: "html" },
-      { label: "Word (.doc)", kind: "primary", value: "doc" },
-    ],
-  });
-  const base = project.title.replace(/[^\w\- ]+/g, "").trim() || "story";
-  if (r?.value === "json") download(`${base}.noirwriter.json`, JSON.stringify(project, null, 1), "application/json");
-  if (r?.value === "txt") download(`${base}.txt`, manuscriptText(project), "text/plain");
-  if (r?.value === "md") download(`${base}.md`, manuscriptMarkdown(project), "text/markdown");
-  if (r?.value === "html") download(`${base}.html`, manuscriptHtml(project), "text/html");
-  if (r?.value === "doc") download(`${base}.doc`, manuscriptHtml(project, { forWord: true }), "application/msword");
-}
 
 route();

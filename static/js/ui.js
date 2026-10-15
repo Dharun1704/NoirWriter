@@ -101,7 +101,7 @@ export function inlineEdit(el, value, onCommit) {
 // ---------------------------------------------------------------- modal
 
 /**
- * Open a modal. `body` is HTML. Buttons: [{label, kind, value, left, confirm}].
+ * Open a modal. `body` is HTML. Buttons: [{label, kind, value, left, confirm}]. `wide`: true, or "xl".
  * A button with `confirm: "message"` asks in place (inside the footer) before closing.
  * Resolves with {value, root} when a button is pressed, or null on dismiss.
  * `onMount(root, close)` lets callers wire up extra behaviour.
@@ -112,7 +112,7 @@ export function modal({ title, body, buttons = [{ label: "Close", value: null }]
     const back = document.createElement("div");
     back.className = "modal-backdrop";
     back.innerHTML = `
-      <div class="modal ${wide ? "wide" : ""}" role="dialog" aria-modal="true">
+      <div class="modal ${wide === "xl" ? "wide xl" : wide ? "wide" : ""}" role="dialog" aria-modal="true">
         <div class="modal-head"><h3>${esc(title)}</h3><button class="icon-btn" data-x title="Close (Esc)" aria-label="Close"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
         <div class="modal-body">${body}</div>
         <div class="modal-foot">${buttons.map((b, i) =>

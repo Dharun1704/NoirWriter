@@ -28,7 +28,8 @@ Nothing to install: only Python and your normal browser are used. Your own proje
    - corkboard drag, reordering chapters, the outliner;
    - themed dropdowns and checkboxes, the folding switchers;
    - search, Plot & Timeline, characters, places;
-   - two windows, working offline, exports, backups, the home page;
+   - Compile & export: the window, presets and contents, and the Word, EPUB, PDF, Markdown and text files themselves (unzipped and checked);
+   - two windows, working offline, backups, the home page;
    - the speed of a 60-chapter, 300-scene book.
 3. **Look check:** every element's style on 30 pages, in both themes, compared with the reference in `tests/baseline/`. It catches accidental visual changes from a CSS edit.
 

@@ -100,6 +100,28 @@ async function tour(t, theme) {
 
 // ---------------------------------------------------------------- tests
 
+// ---------------------------------------------------------------- reading compiled files
+
+/** The text files inside a ZIP (a .docx or .epub), by name. */
+async function readZip(blob) {
+  const buf = new Uint8Array(await blob.arrayBuffer());
+  const view = new DataView(buf.buffer);
+  const files = {};
+  let at = 0;
+  while (view.getUint32(at, true) === 0x04034b50) {
+    const method = view.getUint16(at + 8, true), size = view.getUint32(at + 18, true);
+    const nameLen = view.getUint16(at + 26, true), extra = view.getUint16(at + 28, true);
+    const name = new TextDecoder().decode(buf.slice(at + 30, at + 30 + nameLen));
+    let data = buf.slice(at + 30 + nameLen + extra, at + 30 + nameLen + extra + size);
+    if (method === 8) data = new Uint8Array(await new Response(new Blob([data]).stream().pipeThrough(new DecompressionStream("deflate-raw"))).arrayBuffer());
+    files[name] = new TextDecoder().decode(data);
+    at += 30 + nameLen + extra + size;
+  }
+  return files;
+}
+
+const isXml = text => !!text && !new DOMParser().parseFromString(text, "application/xml").querySelector("parsererror");
+
 export const TESTS = [
   ["Look check: Noir theme (30 pages)", t => tour(t, "dark")],
   ["Look check: Honey theme (30 pages)", t => tour(t, "sepia")],
@@ -416,16 +438,89 @@ export const TESTS = [
     t.ok(await t.until(() => t.$("#offline-banner").hidden), "the banner didn't go away");
   }],
 
-  ["Exports contain the whole book", async t => {
-    const { p } = await seedBook();
+  ["Compile: the window, presets and contents", async t => {
+    await seedBook();
+    await t.load(`${P}/overview`);
+    t.click("[data-export]"); await t.sleep(500);
+    t.eq(t.$$(".cmp-format").length, 6, "format choices");
+    const frame = t.$("#cmp-frame");
+    t.ok(await t.until(() => frame.contentDocument?.querySelectorAll(".ch-head").length === 2), "the preview doesn't show both chapters");
+    t.ok(/2 chapters/.test(t.$("#cmp-stats").textContent), "chapter count above the preview");
+    t.ok(await t.until(() => {
+      const pages = [...frame.contentDocument.querySelectorAll(".sheet.page")];
+      return pages.length >= 2 && pages.every(pg => pg.scrollHeight <= pg.clientHeight + 1 && pg.querySelector(".running-head"));
+    }), "the preview isn't laid out as whole pages with headers");
+    // the name goes on the title page and is saved with the project
+    t.click('.cmp-tabs [data-tab="front"]'); await t.sleep(300);
+    const pen = t.$('[data-k="text.penName"]');
+    pen.value = "M. Q. Writer"; pen.dispatchEvent(new Event("input", { bubbles: true }));
+    t.ok(await t.savedWhen(BOOK, b => b.compile?.text.penName === "M. Q. Writer"), "the pen name wasn't saved");
+    t.ok(await t.until(() => /by M\. Q\. Writer/.test(frame.contentDocument.body.textContent)), "the pen name isn't on the title page");
+    pen.dispatchEvent(new KeyboardEvent("keydown", { key: "Enter", bubbles: true }));
+    t.ok(t.$(".cmp-format"), "Enter in a text box closed the window");
+    // leave a chapter out
+    t.click('.cmp-tabs [data-tab="contents"]'); await t.sleep(300);
+    t.click('[data-ch="chap2"]');
+    t.ok(await t.savedWhen(BOOK, b => b.compile.exclude.includes("chap2")), "leaving a chapter out wasn't saved");
+    t.ok(await t.until(() => /^1 chapter /.test(t.$("#cmp-stats").textContent)), "chapter count after leaving one out");
+    t.click('[data-ch="chap2"]');
+    // a preset switches the format and layout
+    await t.choose(t.$(".cmp-preset .dd"), "E-book");
+    t.ok(t.$(".cmp-format.on")?.dataset.format === "epub", "the e-book preset didn't choose EPUB");
+    t.eq(t.$$(".modal-foot .btn").at(-1).textContent, "Download EPUB", "export button label");
+    t.ok(await t.savedWhen(BOOK, b => b.compile.preset === "ebook" && b.compile.layout.sceneBreak === "❦"), "the preset wasn't saved");
+    t.click('.cmp-tabs [data-tab="layout"]'); await t.sleep(300);
+    t.ok(t.$('[data-k="layout.pageSize"]').closest("[data-for]").hidden, "page settings show for an e-book");
+    t.key("Escape");
+  }],
+
+  ["Compile: Word, EPUB, PDF page, Markdown and text files", async t => {
+    await seedBook();
+    const m = await import("/js/compile/model.js");
+    const { bookHtml, bookMarkdown, bookText } = await import("/js/compile/html.js");
+    const { bookDocx } = await import("/js/compile/docx.js");
+    const { bookEpub } = await import("/js/compile/epub.js");
     const book = st.normalize(await t.saved(BOOK));
-    const txt = st.manuscriptText(book), md = st.manuscriptMarkdown(book), html = st.manuscriptHtml(book), doc = st.manuscriptHtml(book, { forWord: true });
-    t.ok(p.chapters.every(ch => txt.includes(ch.title.toUpperCase())), "plain text is missing a chapter");
-    t.ok(p.chapters.every(ch => md.includes(ch.title)), "markdown is missing a chapter");
-    const parsed = new DOMParser().parseFromString(html, "text/html");
-    t.eq([...parsed.querySelectorAll("h1")].map(h => h.textContent).slice(1), ["The Call", "The Docks"], "HTML chapter headings");
-    t.ok(doc.length > 1000 && /The body lay/.test(doc), "Word export is empty");
-    t.ok(JSON.parse(JSON.stringify(book)).chapters.length === 2, "backup JSON");
+    const c = m.compileSettings(book);
+    c.text.author = "Mara Writer"; c.text.contact = "1 Dock Road";
+    // numbers and the small rules
+    t.eq([m.numberWords(21), m.numberWords(140), m.roman(14)], ["Twenty-One", "One Hundred and Forty", "XIV"], "chapter numbers");
+    t.eq([m.approxWords(85432), m.approxWords(3149)], [85000, 3100], "rounded word counts");
+    book.chapters[0].title = "Chapter 1";
+    let b = m.buildBook(book, c);
+    t.eq(b.chapters.map(ch => m.headingText(ch)), ["Chapter One", "Chapter Two: The Docks"], "headings (a number-only title is dropped)");
+    t.eq(b.runningHead, "Writer / HARNESS BOOK / ", "manuscript header");
+
+    // Word: a real .docx with heading styles, the header and every scene
+    const docx = await readZip(await bookDocx(b));
+    t.ok(docx["[Content_Types].xml"] && docx["word/styles.xml"], "the Word file is missing parts");
+    const docXml = docx["word/document.xml"];
+    t.ok(isXml(docXml) && isXml(docx["word/styles.xml"]), "the Word XML isn't well formed");
+    t.eq((docXml.match(/w:val="Heading1"/g) || []).length, 2, "chapter headings in Word");
+    t.ok(["The phone rang at three.", "The body lay face down by the crane.", "about 100 words", "1 Dock Road"].every(x => docXml.includes(x)), "the Word file is missing text");
+    t.ok(/Writer \/ HARNESS BOOK \/ /.test(docx["word/header1.xml"]) && /PAGE/.test(docx["word/header1.xml"]), "the Word header");
+
+    // EPUB: mimetype first and uncompressed, valid XHTML, both chapters in the reading order
+    m.applyPreset(c, "ebook"); c.front.toc = true;
+    b = m.buildBook(book, c);
+    const epubBlob = await bookEpub(b, { id: c.bookId });
+    const head = new TextDecoder().decode(new Uint8Array(await epubBlob.slice(30, 58).arrayBuffer()));
+    t.eq(head, "mimetypeapplication/epub+zip", "EPUB starts with its mimetype");
+    const epub = await readZip(epubBlob);
+    t.ok(["OEBPS/chapter-001.xhtml", "OEBPS/chapter-002.xhtml", "OEBPS/nav.xhtml", "OEBPS/content.opf"].every(f => isXml(epub[f])), "EPUB files aren't well formed");
+    t.eq((epub["OEBPS/content.opf"].match(/<itemref idref="ch\d+"/g) || []).length, 2, "chapters in the EPUB reading order");
+    t.ok(epub["OEBPS/chapter-002.xhtml"].includes("The body lay face down"), "EPUB chapter text");
+
+    // PDF page, web page, Markdown, plain text
+    m.applyPreset(c, "manuscript");
+    b = m.buildBook(book, c);
+    const print = bookHtml(b, { mode: "print" });
+    t.ok(/@page \{ size: /.test(print) && /counter\(page\)/.test(print), "the print page has no page rules");
+    const doc = new DOMParser().parseFromString(bookHtml(b, { mode: "web" }), "text/html");
+    t.eq([...doc.querySelectorAll(".ch-head")].map(h => h.textContent), ["Chapter One", "Chapter TwoThe Docks"], "web page headings");
+    t.ok(/^## Chapter One$/m.test(bookMarkdown(b)) && /^## Chapter Two: The Docks$/m.test(bookMarkdown(b)), "Markdown headings");
+    t.ok(/CHAPTER ONE/.test(bookText(b)) && bookText(b).includes("Rain on the windscreen."), "plain text");
+    t.ok(/THE END/.test(bookText(b)), "THE END in the manuscript");
   }],
 
   ["Backups: restore an earlier version, keep editing", async t => {
