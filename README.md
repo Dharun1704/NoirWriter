@@ -1,137 +1,195 @@
 # NoirWrite
 
-A personal novel-writing studio. It runs on your own computer, in your browser, and needs nothing but Python. Your books stay on your computer: nothing is sent anywhere.
+A personal novel-writing studio. It runs on your own computer, in your browser, and needs nothing but Python.
+
+- **Write** scene by scene or a whole chapter at a time, with a corkboard, an outliner and a read-through view.
+- **Plan** with a plot timeline, story-structure beats, a character relationship web, and genre tools for crime, fantasy and non-fiction.
+- **Revise** with snapshots that show exactly what changed, a style check, and find & replace across the book.
+- **Finish** by compiling to a standard manuscript for agents, a print-ready paperback, or an EPUB e-book.
+- **Keep it safe** with autosave, automatic backups and an optional backup folder in the cloud.
+
+## Contents
+
+- [Install](#install)
+- [Projects and genres](#projects-and-genres)
+- [The manuscript](#the-manuscript)
+- [Writing tools](#writing-tools)
+- [Compile & export](#compile--export)
+- [Writing stats](#writing-stats)
+- [Layout & themes](#layout--themes)
+- [Keyboard shortcuts](#keyboard-shortcuts)
+- [Your data and backups](#your-data-and-backups)
+- [For developers](#for-developers)
+- [Licence](#licence)
 
 ## Install
 
 1. **Install Python 3.10 or newer** from https://www.python.org/downloads/.
    - **Windows:** during setup, tick **"Add python.exe to PATH"**.
    - **macOS:** run the installer. Linux usually has Python already.
-2. **Download NoirWrite:** on the GitHub page, choose **Releases** and download the latest ZIP, or click **Code → Download ZIP**. Unzip it somewhere you'll keep it, for example in Documents.
+2. **Download NoirWrite:** on the GitHub page, open **Releases** and download the latest ZIP (or click **Code → Download ZIP**). Unzip it somewhere you'll keep it, for example in Documents.
 3. **Start it:**
    - **Windows:** double-click **`NoirWriter.bat`**.
-   - **macOS:** double-click **`NoirWriter.command`**. The first time, macOS may say it's from an unidentified developer. If so, right-click the file, choose **Open**, then **Open** again.
+   - **macOS:** double-click **`NoirWriter.command`**. The first time, macOS may say it's from an unidentified developer: right-click the file, choose **Open**, then **Open** again.
    - **Linux:** run `./NoirWriter.command` in a terminal.
 
-NoirWrite opens in your browser at http://127.0.0.1:8765, and that address works in Edge, Chrome, Firefox or Safari.
+NoirWrite opens in your browser at http://127.0.0.1:8765 (Edge, Chrome, Firefox or Safari).
 
-**Updating to a new version:** download the new version and unzip it, then copy your old `data` folder into it. Your books, backups and images are all in `data`.
+> **Keep the NoirWrite window open while you write.** That window *is* NoirWrite. If you close it, the page shows a red "server offline" banner. Your typing stays safe in the open tab and saves as soon as you start NoirWrite again.
 
-## Start it
-
-Double-click **`NoirWriter.bat`** (Windows) or **`NoirWriter.command`** (macOS).
-
-> **Keep the black NoirWrite window open while you write.** That window *is* NoirWrite. If you close it, the browser shows "unable to connect", and NoirWrite shows a red "server offline" banner. Your typing stays safe in the open tab and saves as soon as you start NoirWrite again.
+**Updating to a new version:** download and unzip the new version, then copy your old `data` folder into it. Your books, backups and images are all in `data`.
 
 ## Projects and genres
 
-When you create a project, you first choose **Fiction** or **Non-fiction**. For fiction you then pick **Crime / Thriller** or **Fantasy**. Each choice comes with a ready-made set of tools, and you can switch any tool on or off later under **Overview → Features**. Switching a tool off only hides it; nothing you wrote is deleted.
-
-**Non-fiction** (memoir, biography, history, essays, guides) starts with **Plot & Timeline** and **Sources**. Sources holds books, articles, interviews and archives with their citations, key quotes and reliability notes. In non-fiction projects, "Characters" is called **People**.
+When you create a project, you choose **Fiction** or **Non-fiction**; for fiction, then **Crime / Thriller** or **Fantasy**. Each choice comes with a ready-made set of tools. You can switch any tool on or off later under **Overview → Features**; switching a tool off only hides it, and nothing you wrote is deleted.
 
 **Every project includes**
-- **Manuscript**: the main writing space (see below)
-- **Characters**: character sheets whose fields change with the genre and the tools you've switched on
+- **Manuscript:** the main writing space
+- **Characters:** character sheets whose fields fit the genre and the tools you've switched on
 - **Notes & Research**
 - **Writing stats**
 
-**Thriller & crime tools**
-- **Clues**: tracks every clue, red herring and twist from planted → revealed → paid off, and warns about continuity errors
-- **Suspects & Solution**: a board of suspects with motive, alibi and secret, plus a private page for the real answer
+**Thriller & crime**
+- **Clues:** tracks every clue, red herring and twist from planted → revealed → paid off, and warns about continuity errors
+- **Suspects & Solution:** a board of suspects with motive, alibi and secret, plus a private page for the real answer
 
-**Fantasy worldbuilding tools**
-- **Maps**: upload map images, zoom and pan, and drop pins linked to places, realms or characters
-- **Magic Systems**: source, rules, costs and limits, plus a table of spells
+**Fantasy worldbuilding**
+- **Maps:** upload map images, zoom and pan, and drop pins linked to places, realms or characters
+- **Magic Systems:** source, rules, costs and limits, plus a table of spells
+- **Languages:** a lexicon, grammar notes and sample phrases
 - **Races & Creatures**, **Factions & Realms**, **Cultures & Religions**, **Artifacts & Items**, **Lore & History**
-- **Languages**: a lexicon table, grammar notes and sample phrases
 
-**Story tools for either genre**
-- **Plot & Timeline**: colour-coded arcs and the true chronology of events, including off-page ones
-- **Locations**: places nested inside places
+**Non-fiction** (memoir, biography, history, essays, guides)
+- **Sources:** books, articles, interviews and archives, with citations, key quotes and reliability notes
+- "Characters" is called **People**
+
+**For any genre**
+- **Plot & Timeline:** colour-coded arcs and the true chronology of events, including off-page ones
+- **Locations:** places nested inside places
 
 Entries link to each other: a character's homeland, a faction's leader, a spell's practitioners. Every entry shows which scenes it appears in and where else it's mentioned.
 
-## The Manuscript
+## The manuscript
 
-- **Binder**: chapters and scenes. Drag scenes to reorder them, including into another chapter; scenes can also be duplicated. To reorder chapters, press the **⇅ Reorder** button at the top of the binder: drag chapters into place (the binder scrolls when you drag near its edge; Alt+↑/↓ moves the selected chapter; each move can be undone), then press **Done**. Each scene has a status: to do, draft, revised or final.
-- **Write by scenes or by chapters** (the switch at the top of the binder, saved per project):
-  - **Scenes:** every scene has its own page, as before.
-  - **Chapters:** the binder lists chapters only, and a chapter opens as one continuous page. Scenes it already has appear inside, separated by ⁂, and the scene-details panel follows whichever scene your cursor is in. Inserting a **Scene break** (the + menu in the toolbar) starts a new scene there; deleting a ⁂ joins that scene to the one before it, keeping its details, with an Undo.
-  - The **Corkboard** shows one card per chapter (drag to reorder chapters), and the **Outliner** one row per chapter; setting a chapter's status or POV sets it for all its scenes.
-  - Switching never changes your writing: flip back to Scenes at any time and each scene is where you left it.
-  - Plot & Timeline and Clues follow the same choice: links, the structure ruler and Story vs truth show chapters ("Ch 2 · The Docks") when you write by chapter.
-- **Four views**:
-  - **Write**: the editor
-  - **Corkboard**: index cards you can drag around
-  - **Outliner**: a table of every scene, editable in place
-  - **Read-through**: the whole book as one continuous text
-- **Formatting**: paragraph styles, fonts, sizes, bold, italic, underline, strikethrough, superscript and subscript, text colour, highlight, alignment, lists, indents, links, scene breaks, em dashes and clear-formatting.
-- **Find & replace**: within a scene or across the whole manuscript (Ctrl+F).
-- **Comments**: select text and press 💬. Comments are left out of exports.
-- **Snapshots** (in the scene details panel): save a version with **+ Take** before a rewrite. **Compare** shows exactly what changed since then: removed words struck through in red, added words in green, with the word counts and ↑ ↓ to jump between changes. Pick any two versions to compare (two snapshots, or a snapshot and the current text), view either in full, or restore the older one (the current text is saved as a snapshot first). Writing by chapter, snapshots and Compare cover the whole chapter.
-- **Focus mode** (Ctrl+Shift+F): hides everything except the page.
-- **Typewriter scrolling**: keeps the line you're typing centred.
-- **Smart quotes and em dashes**: typed quotes become curly, and `--` becomes —.
-- **View settings (Aa)**: font, size, line spacing, page width, book-style indented paragraphs, and dark, sepia or light paper.
-- **Status bar**: live counts of words, characters and selected words, plus reading time, progress towards the scene's word target, words this session and words today versus your goal.
+**Four views**, switched at the top of the editor:
+- **Write:** the editor
+- **Corkboard:** index cards you can drag around
+- **Outliner:** a table of every scene, editable in place
+- **Read-through:** the whole book as one continuous text
+
+**The binder** lists your chapters and scenes.
+- Drag scenes to reorder them, including into another chapter. Scenes can also be duplicated.
+- Each scene has a status: to do, draft, revised or final.
+- To reorder chapters, press **⇅ Reorder** at the top of the binder, drag the chapters into place (or use Alt+↑/↓), then press **Done**. Every move can be undone.
+
+**Write by scenes or by chapters.** The switch at the top of the binder is saved per project.
+- **Scenes:** every scene has its own page.
+- **Chapters:** a chapter opens as one continuous page, with its scenes separated by ⁂. The scene-details panel follows whichever scene your cursor is in.
+  - **Toolbar + → Scene break** starts a new scene where the cursor is.
+  - Deleting a ⁂ joins that scene to the one before it, keeping its details, with an Undo.
+  - The corkboard shows one card per chapter, and the outliner one row per chapter. Setting a chapter's status or POV sets it for all its scenes.
+  - Plot & Timeline and Clues show chapters too ("Ch 2 · The Docks").
+- Switching never changes your writing: flip back at any time and each scene is where you left it.
+
+**In the editor**
+- **Formatting:** paragraph styles, fonts, sizes, bold, italic, underline, strikethrough, superscript and subscript, text colour, highlight, alignment, lists, indents, links and scene breaks.
+- **Smart typing:** straight quotes become curly, and `--` becomes an em dash (—).
+- **Find & replace** within a scene or across the whole manuscript.
+- **Comments:** select text and press 💬. Comments are never included when you compile.
+- **Focus mode** hides everything except the page; **typewriter scrolling** keeps the line you're typing centred.
+- **View settings (Aa):** font, size, line spacing, page width, book-style indented paragraphs, and dark, sepia or light paper.
+- **Status bar:** words, characters and selected words, reading time, progress towards the scene's word target, words this session and words today.
 - **Pasting from Word or Google Docs** keeps italics, bold and paragraph breaks and drops everything else.
+
+**Snapshots** (in the scene-details panel) save a version before a rewrite: press **+ Take**.
+- **Compare** shows exactly what changed: removed words struck through in red, added words in green, with ↑ ↓ to jump between changes.
+- Compare any two versions, view either in full, or restore an older one. The current text is saved as a snapshot first.
+- Every scene also gets an **automatic daily snapshot** the first time you edit it each day (the last 10 are kept).
+- When writing by chapter, snapshots cover the whole chapter.
 
 ## Writing tools
 
-- **Search everything (Ctrl+K):** press Ctrl+K, or click **Search** at the top of the sidebar, to find scenes (including their text), chapters, characters, every worldbuilding entry, clues, timeline events and notes. Use ↑ ↓ and Enter to jump; a scene found by its text opens with the match highlighted.
-- **Writing sprints:** click the timer button above the editor, pick 10–60 minutes and an optional word goal, and write. A live countdown and word count sit in the sidebar (it keeps running while you move between pages). Finished sprints show a summary and are listed under **Writing stats → Writing sprints**.
-- **Style check:** the Aa✓ button above the editor marks adverbs (wavy underline), words repeated close together (blue) and sentences over 35 words (red tint) directly in your text, with counts in the status bar. Character and place names are never flagged. Nothing in your text is changed.
-- **Story structure (Plot & Timeline → Structure):** choose Three-act, Save the Cat, Hero's Journey or Mystery / noir. A ruler over your chapters shows where each beat should fall, measured by word count. Assign a scene to each beat to see whether it lands on target, early or late.
-- **Story vs truth (Plot & Timeline → Story vs truth):** your scenes in reading order beside the timeline in the order things really happened, joined by lines. Crossing lines show where the story is told out of order, and events with no scene are marked off-page.
-- **Relationship web (Characters → Relationship web):** a live graph in the style of Obsidian's graph view. People push apart and relationships pull together like springs, so the web unfolds on its own; drag someone and their connections follow, then everything settles (the layout is remembered). Scroll to zoom, drag the background to pan, double-click the background or use ⤢ to fit everyone in view. Hover over a person to light up their connections; click to open their page. Better-connected people are drawn bigger.
+- **Search everything:** press Ctrl+K (or click **Search** in the sidebar) to find scenes and their text, chapters, characters, worldbuilding entries, clues, timeline events and notes. A scene found by its text opens with the match highlighted.
+- **Writing sprints:** click the timer above the editor, pick 10–60 minutes and an optional word goal, and write. The countdown stays in the sidebar while you move between pages, and finished sprints are listed under **Writing stats**.
+- **Style check:** the **Aa✓** button marks adverbs (wavy underline), words repeated close together (blue) and sentences over 35 words (red tint), with counts in the status bar. Character and place names are never flagged, and nothing in your text is changed.
+- **Story structure** (Plot & Timeline → Structure): choose Three-act, Save the Cat, Hero's Journey or Mystery / noir. A ruler over your chapters shows where each beat should fall by word count; assign a scene to each beat to see whether it lands early, on target or late.
+- **Story vs truth** (Plot & Timeline → Story vs truth): your scenes in reading order beside the events in the order they really happened, joined by lines. Crossing lines show where the story is told out of order; events with no scene are marked off-page.
+- **Relationship web** (Characters → Relationship web): a live graph in the style of Obsidian's graph view.
+  - People push apart and relationships pull together like springs. Drag someone and their connections follow; the layout is remembered.
+  - Scroll to zoom, drag the background to pan, and double-click the background (or press ⤢) to fit everyone in view.
+  - Hover over a person to light up their connections; click to open their page. Better-connected people are drawn bigger.
 
-## Layout & themes
+## Compile & export
 
-- **Resize panels:** drag the edge of the sidebar, the binder or the scene-details panel to make it wider or narrower.
-- **Hide a panel:** drag its edge all the way in. It folds into a thin strip; click the strip or drag it out to bring the panel back. Double-clicking an edge also hides or shows its panel.
-- **Themes:** switch between **Noir** (black & orange) and **Honey** (warm cream & orange) with the two dots at the bottom of the sidebar or at the top right of the home page. The theme applies to the whole app.
-- Panel sizes and theme are remembered in your browser. **Aa → Reset** restores the defaults.
+**Compile & export** (bottom of the sidebar) turns your book into a finished file, with a live, page-by-page preview as you change the settings. Your choices are saved with the project, so the next compile is one click.
+
+**Formats:** Word (.docx), PDF, EPUB e-book, web page, Markdown and plain text, plus a full project backup (.json).
+
+**Presets**
+- **Standard manuscript**, for agents and editors: 12 pt Times New Roman, double-spaced, 1-inch margins, a `Surname / TITLE / page` header, a title page with your contact details and a rounded word count, and chapters starting a third of the way down a new page.
+- **Paperback**, for KDP, IngramSpark or Lulu: 6 × 9 in, Garamond, justified, mirrored margins, author and title running heads, page numbers at the foot, no running head on chapter openings, and Chapter One on a right-hand page.
+- **E-book:** a reflowable EPUB with a linked table of contents and an optional cover image.
+- **Beta readers:** easy to read, with scene titles shown.
+
+**Settings**
+- **Contents:** pick the chapters, and optionally leave out scenes marked "to do".
+- **Title & extras:** subtitle, pen name and legal name, contact details, copyright page (written for you, or your own text), dedication, epigraph, table of contents, "The End", acknowledgements and about the author.
+- **Layout:** chapter headings (Chapter One, Chapter 1, One, 1, I, or the title only), chapter and scene titles, the scene-break mark, font, size, line spacing, indents, justification, page size, margins and the header. The fonts, colours and highlights you used while writing are left out unless you choose to keep them.
+
+**Good to know**
+- The **Word file** uses real Word styles (Heading 1 for chapters, and so on), so Word's navigation pane lists your chapters and you can restyle the whole book in one place.
+- **PDF** opens the book in a new tab with the print window: choose *Save as PDF* and switch off the browser's *Headers and footers*. For a print-on-demand interior, the Word file is more precise: browsers can't yet leave the running head off a chapter's first page.
 
 ## Writing stats
 
-- **Goals**: words today versus your daily goal, current and best streak, and words in the last 7 and 30 days.
-- **Pace**: writing time, words per hour, and how many words a day you need to meet your deadline.
-- **Charts**: a 30-day bar chart and a 26-week writing calendar.
-- **Manuscript analysis**: reading ease (Flesch score), grade level, sentence length, how much of the text is dialogue, -ly adverbs, your most-used words, crutch words and how often each character is mentioned.
-- **Breakdowns**: a per-chapter table and a daily log.
+- **Goals:** words today against your daily goal, current and best streak, and words in the last 7 and 30 days.
+- **Pace:** writing time, words per hour, and how many words a day you need to meet your deadline.
+- **Charts:** a 30-day bar chart and a 26-week writing calendar.
+- **Manuscript analysis:** reading ease (Flesch score), grade level, sentence length, how much of the text is dialogue, -ly adverbs, your most-used words, crutch words, and how often each character is mentioned.
+- **Breakdowns:** a per-chapter table and a daily log.
 
-## Your data
+## Layout & themes
 
-- Each project is one file: `data/<project-id>.json`. Changes autosave within about a second, and **Ctrl+S** saves immediately.
-- Map and entry images are stored in `data/assets/<project-id>/`.
-- A backup is taken at most every 5 minutes while you write and saved to `data/backups/`. NoirWrite keeps the newest 30 plus one for each of the last 60 days. To put one back, go to **Overview → Backups → Restore an earlier version**. The version you replace is backed up first.
-- Every scene also keeps an **automatic daily snapshot**: the first time you edit a scene on a given day, a copy of how it looked before is saved under that scene's Snapshots (the last 10 per scene are kept). Writing by chapter, the daily copy is of the whole chapter.
-- **Same project open in two windows?** Every save carries a version number. When you switch back to a tab, it picks up changes made elsewhere automatically. If both windows changed the project, NoirWrite stops and asks whether to load the newer version, keep yours, or save yours as a copy. Nothing is overwritten silently.
-- **Backup folder (protects against a broken drive):** on the home page, choose a folder, ideally inside OneDrive, Google Drive or Dropbox so it syncs to the cloud. NoirWrite then keeps a copy of every project in `NoirWrite Backup` inside it, updated a couple of minutes after you write, plus one copy per day for the last 30 days and your images. It catches up whenever NoirWrite starts. The home page shows when the last copy was made, or warns if the folder can't be reached (your work still saves on this computer). To bring a book back, copy its `.json` file from the backup folder into `data`, or use **Import** on the home page.
-- Deleted projects go to `data/trash/` and can be brought back from **Recently deleted** at the bottom of the home page.
-- **Compile & export** (bottom of the sidebar) turns the book into a finished file, with a live preview of the pages as you change the settings. Your choices are saved with the project, so the next compile is one click.
-  - **Formats:** Word (.docx), PDF, EPUB e-book, web page, Markdown and plain text. A full project backup (.json) is there too.
-  - **Presets:**
-    - *Standard manuscript* for agents and editors: 12 pt Times New Roman, double-spaced, 1-inch margins, a `Surname / TITLE / page` header, a title page with your contact details and a rounded word count, and chapters a third of the way down a new page.
-    - *Paperback* for KDP, IngramSpark or Lulu: 6 × 9 in, Garamond, justified, mirrored margins, author and title running heads, page numbers at the foot, no running head on chapter openings, and Chapter One on a right-hand page.
-    - *E-book*: a reflowable EPUB with a linked table of contents and an optional cover image.
-    - *Beta readers*: easy to read, with scene titles shown.
-  - **Contents:** pick the chapters, and optionally leave out scenes marked "to do".
-  - **Title & extras:** subtitle, pen name and legal name, contact details, copyright page (written for you, or your own text), dedication, epigraph, table of contents, "The End", acknowledgements and about the author.
-  - **Layout:** chapter headings (Chapter One, Chapter 1, One, 1, I, or the title only), chapter and scene titles, the scene-break mark, font, size, line spacing, indents, justification, page size, margins and the header. Fonts, colours and highlights you used while writing are left out unless you ask to keep them. Comments are always left out.
-  - The **Word file** uses real Word styles (Heading 1 for chapters, and so on), so Word's navigation pane lists your chapters and you can restyle the whole book in one place.
-  - **PDF** opens the book in a new tab with the print window: choose *Save as PDF* and switch off the browser's *Headers and footers*. For a print-on-demand interior, the Word file is the more precise choice: browsers can't yet leave the running head off a chapter's first page.
+- **Resize panels:** drag the edge of the sidebar, the binder or the scene-details panel.
+- **Hide a panel:** drag its edge all the way in, or double-click the edge. It folds into a thin strip; click the strip to bring it back.
+- **Themes:** **Noir** (black & orange) or **Honey** (warm cream & orange), using the two dots at the bottom of the sidebar or at the top right of the home page.
+- Panel sizes and the theme are remembered in your browser. **Aa → Reset** restores the defaults.
 
-- **How big is it?** Text takes about 7 bytes per word, so a 35,000-word novel is roughly 250 KB on disk. Portraits add about 30–60 KB each, and snapshots add a copy of their scene. Map images are stored as separate files.
+## Keyboard shortcuts
 
-To back everything up by hand, copy the `data` folder.
+| Keys | What it does |
+|---|---|
+| Ctrl+K | Search everything |
+| Ctrl+F or Ctrl+H | Find & replace (in the editor) |
+| Ctrl+S | Save now |
+| Ctrl+Shift+F | Focus mode |
+| Alt+↑ / Alt+↓ | Move a chapter (while reordering) |
 
-## Testing
+On a Mac, use Cmd instead of Ctrl.
 
-Double-click **RunTests.bat** (or run `python tests/run_tests.py`) to check the whole app in about three minutes: server checks, every feature in a browser tab, and a look check of every page in both themes. Your own projects are never touched. See `tests/README.md`.
+## Your data and backups
+
+Everything lives in the `data` folder next to NoirWrite. To back it all up by hand, copy that folder.
+
+- **Saving:** each project is one file, `data/<project-id>.json`. Changes save automatically within about a second.
+- **Images:** map and entry images are stored in `data/assets/<project-id>/`.
+- **Automatic backups:** taken at most every 5 minutes while you write, in `data/backups/`. The newest 30 are kept, plus one for each of the last 60 days. To go back, open **Overview → Backups → Restore an earlier version**; the version you replace is backed up first.
+- **Backup folder** (protects against a broken drive): on the home page, choose a folder, ideally inside OneDrive, Google Drive or Dropbox so it syncs to the cloud.
+  - NoirWrite keeps a copy of every project in `NoirWrite Backup` inside it, updated a couple of minutes after you write, plus one copy per day for the last 30 days and your images.
+  - The home page shows when the last copy was made, or warns if the folder can't be reached (your work still saves on this computer).
+  - To bring a book back, copy its `.json` file into `data`, or use **Import** on the home page.
+- **Deleted projects** go to `data/trash/` and can be brought back from **Recently deleted** at the bottom of the home page.
+- **Two windows on one project:** every save carries a version number, and each window picks up changes made in the other. If both changed the project, NoirWrite asks whether to load the newer version, keep yours, or save yours as a copy. Nothing is overwritten silently.
+- **How big is it?** About 7 bytes per word, so a 35,000-word novel takes roughly 250 KB. Portraits add about 30–60 KB each, and snapshots add a copy of their scene.
+
+## For developers
+
+NoirWrite is a small Python standard-library server (`server.py`) and a plain JavaScript app (`static/`), with no build step and no dependencies.
+
+**Tests:** double-click **RunTests.bat**, or run `python tests/run_tests.py`, to check the whole app in a few minutes: server checks, every feature driven in a browser tab, and a look check of every page in both themes. Your own projects are never touched. See [`tests/README.md`](tests/README.md).
 
 ## Licence
 
-NoirWrite is free software: you can use it, share it and change it under the terms of the **GNU General Public License, version 3** or (at your option) any later version (see `LICENSE`). If you share a changed version, you must share its source code under the same licence. NoirWrite comes with no warranty.
+NoirWrite is free software: you can use it, share it and change it under the terms of the **GNU General Public License, version 3** or (at your option) any later version. See [`LICENSE`](LICENSE). If you share a changed version, you must share its source code under the same licence. NoirWrite comes with no warranty.
 
 Copyright © 2026 Dharun Vaibhav U.
